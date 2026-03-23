@@ -1436,3 +1436,248 @@ img {
 .step-card:nth-child(7) {
     transition-delay: 0.3s;
 }
+
+/* ===== BRAND AMBASSADOR ENDORSEMENT ===== */
+.ambassador-endorsement {
+    position: relative;
+    padding: 80px 0;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    overflow: hidden;
+}
+
+.ambassador-bg-pattern {
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse at 20% 50%, rgba(212, 165, 116, 0.08) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 30%, rgba(232, 192, 125, 0.06) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+.endorsement-layout {
+    display: grid;
+    grid-template-columns: 380px 1fr;
+    gap: 60px;
+    align-items: center;
+}
+
+/* 代言人照片 */
+.endorsement-photo {
+    position: relative;
+    z-index: 1;
+}
+
+.photo-spotlight {
+    position: absolute;
+    top: -30px;
+    left: -30px;
+    right: -30px;
+    bottom: -30px;
+    background: radial-gradient(ellipse at center, rgba(212, 165, 116, 0.15) 0%, transparent 70%);
+    border-radius: 50%;
+    z-index: 0;
+    animation: spotlight-pulse 4s ease-in-out infinite;
+}
+
+@keyframes spotlight-pulse {
+    0%, 100% { opacity: 0.6; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.05); }
+}
+
+.endorsement-photo img {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    aspect-ratio: 3/4;
+    object-fit: cover;
+    object-position: top center;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    border: 2px solid rgba(212, 165, 116, 0.3);
+}
+
+.photo-name-tag {
+    position: absolute;
+    bottom: -16px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 24px;
+    background: linear-gradient(135deg, var(--golden-brown), #C49B6A);
+    color: var(--white);
+    font-size: 0.9rem;
+    font-weight: 700;
+    border-radius: 50px;
+    box-shadow: 0 4px 20px rgba(212, 165, 116, 0.4);
+    white-space: nowrap;
+    letter-spacing: 1px;
+}
+
+.name-tag-star {
+    font-size: 1rem;
+}
+
+/* 代言內容 */
+.endorsement-body {
+    color: var(--white);
+}
+
+.endorsement-header {
+    margin-bottom: 28px;
+}
+
+.endorsement-label {
+    display: inline-block;
+    padding: 5px 16px;
+    background: rgba(212, 165, 116, 0.15);
+    border: 1px solid rgba(212, 165, 116, 0.3);
+    color: var(--golden-brown-light);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    border-radius: 50px;
+    margin-bottom: 16px;
+}
+
+.endorsement-header h2 {
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    color: var(--white);
+    line-height: 1.4;
+}
+
+.endorsement-quote {
+    position: relative;
+    padding: 24px 28px;
+    margin-bottom: 32px;
+    background: rgba(255, 255, 255, 0.05);
+    border-left: 3px solid var(--golden-brown);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    font-size: 1.1rem;
+    line-height: 1.9;
+    color: rgba(255, 255, 255, 0.85);
+    font-style: italic;
+}
+
+.endorsed-categories {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 32px;
+}
+
+.endorsed-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-md);
+    transition: var(--transition);
+}
+
+.endorsed-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(212, 165, 116, 0.3);
+    transform: translateY(-3px);
+}
+
+.endorsed-icon {
+    font-size: 1.6rem;
+    flex-shrink: 0;
+}
+
+.endorsed-item strong {
+    display: block;
+    font-size: 0.95rem;
+    color: var(--white);
+    margin-bottom: 2px;
+}
+
+.endorsed-item small {
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.endorsement-cta {
+    display: inline-block;
+    padding: 14px 36px;
+    background: linear-gradient(135deg, var(--golden-brown), var(--golden-brown-light));
+    color: var(--white);
+    font-size: 1rem;
+    font-weight: 700;
+    border-radius: 50px;
+    box-shadow: 0 4px 20px rgba(212, 165, 116, 0.3);
+    transition: var(--transition);
+    letter-spacing: 0.5px;
+}
+
+.endorsement-cta:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(212, 165, 116, 0.5);
+}
+
+/* ===== PRODUCT CARD AMBASSADOR BADGE ===== */
+.ambassador-rec {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px 4px 4px;
+    background: rgba(26, 26, 46, 0.85);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(212, 165, 116, 0.4);
+    border-radius: 50px;
+    color: var(--golden-brown-light);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+    transition: var(--transition);
+}
+
+.ambassador-rec:hover {
+    background: rgba(26, 26, 46, 0.95);
+    box-shadow: 0 4px 20px rgba(212, 165, 116, 0.3);
+}
+
+.ambassador-rec img {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: top center;
+    border: 1.5px solid var(--golden-brown);
+}
+
+/* ===== AMBASSADOR RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .endorsement-layout {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        text-align: center;
+    }
+
+    .endorsement-photo {
+        max-width: 280px;
+        margin: 0 auto;
+    }
+
+    .endorsed-categories {
+        grid-template-columns: 1fr;
+    }
+
+    .endorsement-quote {
+        text-align: left;
+    }
+
+    .ambassador-endorsement {
+        padding: 60px 0;
+    }
+}
