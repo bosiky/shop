@@ -16,7 +16,7 @@
 <nav class="navbar" id="navbar">
     <div class="nav-container">
         <a href="#home" class="nav-logo">
-            <span class="logo-icon">🏕️</span>
+            <img src="logo.png" alt="偉泥夫妻團購小舖" class="logo-img">
             <span class="logo-text">偉泥夫妻團購小舖</span>
         </a>
         <button class="nav-toggle" id="navToggle" aria-label="切換選單">
@@ -121,7 +121,7 @@
             <!-- 代言人形象照 -->
             <div class="endorsement-photo">
                 <div class="photo-spotlight"></div>
-                <img src="ambassador.jpg" alt="品牌代言人">
+                <img src="ambassador.png" alt="品牌代言人">
                 <div class="photo-name-tag">
                     <span class="name-tag-star">⭐</span>
                     <span>品牌代言人</span>
@@ -178,7 +178,7 @@
             <!-- Product: Thomas Train (HOT) -->
             <div class="product-card featured" data-aos="fade-up">
                 <div class="product-badge hot">🔥 熱門商品</div>
-                <div class="ambassador-rec"><img src="ambassador.jpg" alt="代言人"><span>代言推薦</span></div>
+                <div class="ambassador-rec"><img src="ambassador.png" alt="代言人"><span>代言推薦</span></div>
                 <div class="product-image">
                     <img src="product4.png" alt="湯瑪士小火車">
                     <div class="product-overlay">
@@ -209,7 +209,7 @@
             <!-- Product 1 -->
             <div class="product-card" data-aos="fade-up">
                 <div class="product-badge">熱賣中 🔥</div>
-                <div class="ambassador-rec"><img src="ambassador.jpg" alt="代言人"><span>代言推薦</span></div>
+                <div class="ambassador-rec"><img src="ambassador.png" alt="代言人"><span>代言推薦</span></div>
                 <div class="product-image">
                     <img src="product1.png" alt="露營摺疊椅">
                     <div class="product-overlay">
@@ -517,6 +517,20 @@
                     </div>
                     <button type="submit" class="btn-submit">送出留言 📨</button>
                 </form>
+
+                <div class="comment-board" style="margin-top: 40px; text-align: left;">
+                    <h3 style="margin-bottom: 20px;">💬 團友留言板</h3>
+                    <div id="commentList" style="max-height: 400px; overflow-y: auto; padding-right: 15px; border-top: 1px solid var(--cream-dark); padding-top: 20px;">
+                        <div class="comment-item" style="margin-bottom: 15px; background: var(--cream-light); padding: 15px; border-radius: var(--radius-sm);">
+                            <strong>👩 小美</strong> <span style="color: var(--text-light); font-size: 0.8rem;">剛剛</span>
+                            <p style="margin-top: 5px;">請問保溫瓶還有現貨嗎？</p>
+                            <div style="margin-top: 10px; padding-left: 15px; border-left: 3px solid var(--golden-brown);">
+                                <strong>🏕️ 偉泥夫妻 (店家)</strong>
+                                <p style="margin-top: 5px; color: var(--text-medium);">小美您好！保溫瓶目前霧面綠還有少量現貨喔！如果要的話要趕快下單～</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -527,7 +541,7 @@
     <div class="container">
         <div class="footer-content">
             <div class="footer-brand">
-                <span class="footer-logo">🏕️ 偉泥夫妻團購小舖</span>
+                <span class="footer-logo"><img src="logo.png" alt="偉泥夫妻團購小舖" class="footer-logo-img"> 偉泥夫妻團購小舖</span>
                 <p>和我們一起發現生活中的好物</p>
             </div>
             <div class="footer-links">
@@ -546,6 +560,86 @@
         </div>
     </div>
 </footer>
+
+<!-- ===== CHECKOUT MODAL ===== -->
+<div class="modal-overlay" id="checkoutModal">
+    <div class="modal-content">
+        <button class="modal-close" id="closeModal">&times;</button>
+        <div class="checkout-steps">
+            <div class="checkout-step active" id="stepIndicator1">1. 確認商品</div>
+            <div class="checkout-step" id="stepIndicator2">2. 填寫資料</div>
+            <div class="checkout-step" id="stepIndicator3">3. 付款方式</div>
+            <div class="checkout-step" id="stepIndicator4">4. 完成訂單</div>
+        </div>
+        
+        <!-- Step 1 -->
+        <div class="step-container active" id="step1">
+            <h3 id="checkoutProductName">商品名稱</h3>
+            <p id="checkoutProductPrice" class="price-sale">$0</p>
+            <div class="form-group">
+                <label>購買數量</label>
+                <input type="number" id="checkoutQty" value="1" min="1" max="10">
+            </div>
+            <h4 style="margin-top: 15px;">總計: <span id="checkoutTotal" style="color: #c0392b;">$0</span></h4>
+            <button class="btn-submit" onclick="nextStep(2)" style="margin-top:20px;">下一步：填寫收件資料</button>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="step-container" id="step2">
+            <h3>收件資料</h3>
+            <div class="form-group">
+                <label>收件人姓名</label>
+                <input type="text" id="checkoutName" placeholder="請輸入姓名">
+            </div>
+            <div class="form-group">
+                <label>聯絡電話</label>
+                <input type="tel" id="checkoutPhone" placeholder="請輸入手機號碼">
+            </div>
+            <div class="form-group">
+                <label>收件地址</label>
+                <input type="text" id="checkoutAddress" placeholder="請輸入收件地址">
+            </div>
+            <div style="display: flex; gap: 10px; margin-top:20px;">
+                <button class="btn-submit" onclick="nextStep(1)" style="background: var(--text-light);">上一步</button>
+                <button class="btn-submit" onclick="nextStep(3)">下一步：選擇付款方式</button>
+            </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="step-container" id="step3">
+            <h3>付款方式</h3>
+            <div class="form-group">
+                <label><input type="radio" name="payment" value="credit" checked onchange="togglePayment()"> 信用卡付款</label>
+            </div>
+            <div class="form-group" id="creditCardArea">
+                <input type="text" placeholder="信用卡號 (16碼)" maxlength="16" style="margin-bottom: 10px;">
+                <div style="display: flex; gap: 10px;">
+                    <input type="text" placeholder="有效月/年 (MM/YY)" style="flex: 1;">
+                    <input type="text" placeholder="安全碼 (CVV)" maxlength="3" style="flex: 1;">
+                </div>
+            </div>
+            <div class="form-group">
+                <label><input type="radio" name="payment" value="atm" onchange="togglePayment()"> ATM轉帳/匯款</label>
+            </div>
+            <div id="atmArea" style="display: none; background: #f9f9f9; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                <p style="margin: 0; font-size: 0.9rem;">匯款資訊：<br>銀行代碼：012<br>帳號：1234-5678-9012<br><span style="color:red; font-size: 0.8rem;">*請於三日內完成匯款</span></p>
+            </div>
+            <div style="display: flex; gap: 10px; margin-top:20px;">
+                <button class="btn-submit" onclick="nextStep(2)" style="background: var(--text-light);">上一步</button>
+                <button class="btn-submit" onclick="processPayment()">確認付款</button>
+            </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="step-container" id="step4" style="text-align: center;">
+            <div style="font-size: 4rem; margin-bottom: 20px;">🎉</div>
+            <h3 style="color: var(--forest-green-dark);">訂單成立！付款完成！</h3>
+            <p style="color: var(--text-medium); margin-bottom: 8px;">感謝您的購買，我們會盡快為您出貨。</p>
+            <p>訂單編號：<strong id="orderNumber"></strong></p>
+            <button class="btn-submit" id="finishOrder" style="margin-top:20px;">回到首頁</button>
+        </div>
+    </div>
+</div>
 
 <!-- Back to top -->
 <button class="back-to-top" id="backToTop" aria-label="回到頂端">
