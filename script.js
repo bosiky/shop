@@ -92,33 +92,125 @@ document.querySelectorAll('.product-card, .step-card, .testimonial-card, .faq-it
     observer.observe(el);
 });
 
-// ===== CONTACT FORM & AUTO REPLY =====
+// ===== CONTACT FORM & FIREBASE COMMENTS =====
 const contactForm = document.getElementById('contactForm');
+const commentList = document.getElementById('commentList');
+
+// HTML 轉義防止 XSS
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+// 格式化時間
+function formatTime(timestamp) {
+    if (!timestamp) return '剛剛';
+    const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
+    const now = new Date();
+    const diffMs = now - date;
+    const diffMin = Math.floor(diffMs / 60000);
+    const diffHr = Math.floor(diffMs / 3600000);
+    const diffDay = Math.floor(diffMs / 86400000);
+
+    if (diffMin < 1) return '剛剛';
+    if (diffMin < 60) return `${diffMin} 分鐘前`;
+    if (diffHr < 24) return `${diffHr} 小時前`;
+    if (diffDay < 7) return `${diffDay} 天前`;
+    return date.toLocaleDateString('zh-TW', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+}
+
+function renderComments(comments) {
+    if (!commentList) return;
+    commentList.innerHTML = '';
+
+    if (comments.length === 0) {
+        commentList.innerHTML = '<p style="color: var(--text-light); text-align: center; padding: 20px;">還沒有留言，快來留下第一則留言吧 😊</p>';
+        return;
+    }
+
+    comments.forEach(thread => {
+        let replyHTML = '';
+        if (thread.replyMessage) {
+            replyHTML = `
+                <div style="margin-top: 10px; padding-left: 15px; border-left: 3px solid var(--golden-brown);">
+                    <strong>🏕️ 偉泥夫妻 (店家)</strong>
+                    <p style="margin-top: 5px; color: var(--text-medium);">${escapeHtml(thread.replyMessage)}</p>
+                </div>
+            `;
+        }
+
+        const timeStr = formatTime(thread.createdAt);
+
+        const html = `
+            <div class="comment-item" style="margin-bottom: 15px; background: var(--cream-light); padding: 15px; border-radius: var(--radius-sm);">
+                <strong>👩 ${escapeHtml(thread.userName)}</strong> <span style="color: var(--text-light); font-size: 0.8rem;">${timeStr}</span>
+                <p style="margin-top: 5px;">${escapeHtml(thread.userMessage)}</p>
+                ${replyHTML}
+            </div>
+        `;
+        commentList.insertAdjacentHTML('beforeend', html);
+    });
+}
+
+// 🔥 Firebase 即時監聽留言 — 所有人都能即時看到新留言
+if (typeof db !== 'undefined') {
+    db.collection('comments')
+        .orderBy('createdAt', 'desc')
+        .limit(50)
+        .onSnapshot((snapshot) => {
+            const comments = [];
+            snapshot.forEach(doc => {
+                comments.push({ id: doc.id, ...doc.data() });
+            });
+            renderComments(comments);
+        }, (error) => {
+            console.error('Firebase 讀取留言失敗:', error);
+            if (commentList) {
+                commentList.innerHTML = '<p style="color: #c0392b; text-align: center; padding: 20px;">⚠️ 留言載入失敗，請檢查 Firebase 設定</p>';
+            }
+        });
+} else {
+    console.warn('Firebase 未初始化，留言功能無法使用');
+    if (commentList) {
+        commentList.innerHTML = '<p style="color: var(--text-light); text-align: center; padding: 20px;">留言功能載入中...</p>';
+    }
+}
+
 if (contactForm) {
-    contactForm.addEventListener('submit', (e) => {
+    contactForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        
+
         const nameInput = document.getElementById('name');
-        const phoneInput = document.getElementById('phone');
         const messageInput = document.getElementById('message');
         const name = nameInput.value.trim();
         const message = messageInput.value.trim();
-        
+
         if (!name || !message) return;
 
-        // 1. Add user's comment
-        const commentList = document.getElementById('commentList');
-        if (commentList) {
-            const userCommentHTML = `
-                <div class="comment-item" style="margin-bottom: 15px; background: var(--cream-light); padding: 15px; border-radius: var(--radius-sm);">
-                    <strong>👩 ${name}</strong> <span style="color: var(--text-light); font-size: 0.8rem;">剛剛</span>
-                    <p style="margin-top: 5px;">${message}</p>
-                </div>
-            `;
-            commentList.insertAdjacentHTML('afterbegin', userCommentHTML);
-            
-            // Auto reply after 1.5 seconds
-            setTimeout(() => {
+        // 送出按鈕禁用
+        const submitBtn = contactForm.querySelector('.btn-submit');
+        const originalBtnText = submitBtn.innerText;
+        submitBtn.innerText = '送出中...';
+        submitBtn.disabled = true;
+
+        try {
+            // 新增留言到 Firestore
+            const docRef = await db.collection('comments').add({
+                userName: name,
+                userMessage: message,
+                replyMessage: null,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+
+            // 清空表單
+            contactForm.reset();
+            submitBtn.innerText = originalBtnText;
+            submitBtn.disabled = false;
+            alert('留言已送出！所有人都看得到你的留言囉 🎉');
+
+            // 自動回覆（1 秒後）
+            setTimeout(async () => {
                 const replies = [
                     `${name} 您好！收到您的留言囉！我們已經記錄下來，會盡快為您確認處理 🏕️ 祝您有美好的一天！`,
                     `親愛的 ${name}：感謝您的詢問～店長正在為您查詢相關資訊，稍後馬上回覆您喔 🌟`,
@@ -132,22 +224,22 @@ if (contactForm) {
                     `謝謝 ${name} 的留言！露營路上有您相伴真好，您的問題我們正火速為您確認中 🚗💨`
                 ];
                 const randomReply = replies[Math.floor(Math.random() * replies.length)];
-                
-                // Add reply to the first item (user's comment)
-                if (commentList.firstElementChild) {
-                    commentList.firstElementChild.insertAdjacentHTML('beforeend', `
-                    <div style="margin-top: 10px; padding-left: 15px; border-left: 3px solid var(--golden-brown);">
-                        <strong>🏕️ 偉泥夫妻 (店家)</strong>
-                        <p style="margin-top: 5px; color: var(--text-medium);">${randomReply}</p>
-                    </div>
-                    `);
-                }
-            }, 1000);
-        }
 
-        // Reset form
-        contactForm.reset();
-        alert('留言已送出！');
+                try {
+                    await db.collection('comments').doc(docRef.id).update({
+                        replyMessage: randomReply
+                    });
+                } catch (err) {
+                    console.error('自動回覆失敗:', err);
+                }
+            }, 1500);
+
+        } catch (error) {
+            console.error('送出留言失敗:', error);
+            submitBtn.innerText = originalBtnText;
+            submitBtn.disabled = false;
+            alert('留言送出失敗，請檢查網路連線後再試 😢');
+        }
     });
 }
 
