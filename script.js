@@ -251,6 +251,10 @@ let currentPrice = 0;
 // Open modal on click "我要跟團"
 document.querySelectorAll('.btn-order, .promo-cta').forEach(btn => {
     btn.addEventListener('click', (e) => {
+        const href = btn.getAttribute('href');
+        if (href && !href.startsWith('#')) {
+            return; // Let it navigate normally
+        }
         // Prevent default hash navigation
         e.preventDefault();
         

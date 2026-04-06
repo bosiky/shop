@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>偉泥原創怪物卡收集包 | 偉泥夫妻團購小舖</title>
+    <meta name="description" content="全套原創手繪怪物卡，包含UFO載具、強力技能卡與各種神奇怪物，快來收集！">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Card showcase specific styles */
+        .card-showcase-hero {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: white;
+            padding: 120px 20px 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-showcase-hero::before {
+            content: '👾';
+            position: absolute;
+            font-size: 300px;
+            opacity: 0.05;
+            top: -50px;
+            right: -50px;
+            transform: rotate(15deg);
+        }
+
+        .card-showcase-hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            font-family: 'Noto Serif TC', serif;
+        }
+
+        .card-showcase-hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+
+        .hero-product-image {
+            max-width: 400px;
+            margin: 0 auto;
+            display: block;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            transition: transform 0.3s ease;
+        }
+
+        .hero-product-image:hover {
+            transform: translateY(-10px);
+        }
+
+        .buy-action-area {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 800px;
+            margin: -50px auto 50px;
+            position: relative;
+            z-index: 10;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .price-tag {
+            display: flex;
+            align-items: baseline;
+            gap: 15px;
+        }
+
+        .price-tag .sale {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--forest-green);
+        }
+
+        .price-tag .original {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            text-decoration: line-through;
+        }
+
+        .btn-buy-large {
+            background: var(--forest-green);
+            color: white;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(45, 90, 39, 0.3);
+        }
+
+        .btn-buy-large:hover {
+            background: var(--forest-green-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(45, 90, 39, 0.4);
+        }
+
+        .card-collections {
+            padding: 60px 20px;
+            background-color: var(--cream);
+        }
+
+        .collection-section {
+            max-width: 1100px;
+            margin: 0 auto 80px;
+        }
+
+        .collection-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 40px;
+            color: var(--text-dark);
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .collection-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 4px;
+            background: var(--forest-green);
+            border-radius: 2px;
+        }
+
+        .deck-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 25px;
+        }
+
+        .monster-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            cursor: pointer;
+        }
+
+        .monster-card:hover {
+            transform: translateY(-10px) rotate(2deg);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            border-color: var(--sand);
+        }
+
+        .card-img-placeholder {
+            height: 200px;
+            background: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: #ccc;
+            border-bottom: 1px solid #eee;
+            position: relative;
+        }
+        
+        .type-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: white;
+        }
+        
+        .type-ufo { background: #9b59b6; }
+        .type-skill { background: #e74c3c; }
+        .type-monster { background: #f39c12; }
+
+        .card-details {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .card-details h4 {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+            color: var(--text-dark);
+        }
+
+        .card-details p {
+            font-size: 0.9rem;
+            color: var(--text-medium);
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 768px) {
+            .buy-action-area {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+            .card-showcase-hero h1 {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ===== NAVIGATION ===== -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html#home" class="nav-logo">
+                <span class="logo-text">← 回到偉泥夫妻團購小舖</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#ufo" class="nav-link">UFO 載具</a></li>
+                <li><a href="#skill" class="nav-link">技能卡</a></li>
+                <li><a href="#monster" class="nav-link">怪物卡</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ===== HERO SECTION ===== -->
+    <header class="card-showcase-hero">
+        <h1>👾 偉泥原創怪物卡收集包</h1>
+        <p>這不僅僅是一套卡牌，這是純手工原創繪製的奇幻想像！包含各種超萌的UFO載具、戰鬥必備的技能卡，以及各式各樣充滿靈魂的搞怪怪物，全套限量發行套組！</p>
+        <img src="monster_cards_pack.png" alt="怪物卡收集包" class="hero-product-image">
+    </header>
+
+    <!-- ===== BUY ACTION AREA ===== -->
+    <div class="buy-action-area">
+        <div class="product-info">
+            <h2>全套手繪卡牌收集包 (含隱藏版)</h2>
+            <div class="price-tag">
+                <span class="sale">NT$ 299</span>
+                <span class="original">NT$ 450</span>
+            </div>
+        </div>
+        <a href="index.html#contact" class="btn-buy-large">立即跟團搶購 🛒</a>
+    </div>
+
+    <!-- ===== CARD COLLECTIONS ===== -->
+    <main class="card-collections">
+        
+        <!-- UFO SERIES -->
+        <section id="ufo" class="collection-section">
+            <h3 class="collection-title">🛸 怪物載具 UFO 系列</h3>
+            <div class="deck-grid">
+                <div class="monster-card">
+                    <div class="card-img-placeholder">
+                        <span class="type-badge type-ufo">UFO</span>
+                        🐶🛸
+                    </div>
+                    <div class="card-details">
+                        <h4>狗狗 UFO</h4>
+                        <p>看起來無辜但速度極快的星際小狗載具</p>
+                    </div>
+                </div>
+                <div class="monster-card">
+                    <div class="card-img-placeholder">
+                        <span class="type-badge type-ufo">UFO</span>
+                        🐱🛸
+                    </div>
+                    <div class="card-details">
+                        <h4>貓貓 UFO</h4>
+                        <p>發射可愛死光，讓對手瞬間融化</p>
+                    </div>
+                </div>
+                <div class="monster-card">
+                    <div class="card-img-placeholder">
+                        <span class="type-badge type-ufo">UFO</span>
+                        🚌✨
+                    </div>
+                    <div class="card-details">
+                        <h4>喵星巴士</h4>
+                        <p>可以一次載走整群喵星人的超大容量校車</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SKILL CARDS -->
+        <section id="skill" class="collection-section">
+            <h3 class="collection-title">⚡ 戰鬥防禦 技能卡</h3>
+            <div class="deck-grid">
+                <div class="monster-card">
+                    <div class="card-img-placeholder">
+                        <span class="type-badge type-skill">技能</span>
+                        🧨
+                    </div>
+                    <div class="card-details">
+                        <h4>TNT 炸藥</h4>
+                        <p>強大的範圍傷害，小心不要炸到自己！</p>
+                    </div>
+                </div>
+                <div class="monster-card">
+                    <div class="card-img-placeholder">
+                        <span class="type-badge type-skill">技能</span>
+                        🛡️
+                    </div>
+                    <div class="card-details">
+                        <h4>防禦盾</h4>
+                        <p>抵擋一次致命攻擊的重要保命卡</p>
+                    </div>
+                </div>
+                <div class="monster-card">
+                    <div class="card-img-placeholder">
+                        <span class="type-badge type-skill">技能</span>
+                        🥷
+                    </div>
+                    <div class="card-details">
+                        <h4>盜賊卡</h4>
+                        <p>隨機偷取對手手牌中的一張超稀有卡</p>
+                    </div>
+                </div>
+                <div class="monster-card">
+                    <div class="card-img-placeholder">
+                        <span class="type-badge type-skill">技能</span>
+                        ⏸️
+                    </div>
+                    <div class="card-details">
+                        <h4>靜止器</h4>
+                        <p>凍結敵方回合，為自己爭取寶貴時間</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MONSTER CARDS -->
+        <section id="monster" class="collection-section">
+            <h3 class="collection-title">👾 奇異物種 怪物卡</h3>
+            <div class="deck-grid">
+                <div class="monster-card">
+                    <div class="card-img-placeholder"><span class="type-badge type-monster">怪物</span>👀</div>
+                    <div class="card-details"><h4>Seek</h4><p>永遠盯著你看到心裡發寒</p></div>
+                </div>
+                <div class="monster-card">
+                    <div class="card-img-placeholder"><span class="type-badge type-monster">怪物</span>😐</div>
+                    <div class="card-details"><h4>Job</h4><p>每天都在上班很累的怪獸</p></div>
+                </div>
+                <div class="monster-card">
+                    <div class="card-img-placeholder"><span class="type-badge type-monster">怪物</span>🌚</div>
+                    <div class="card-details"><h4>黑暗月亮</h4><p>在夜間會爆發出極強戰鬥力</p></div>
+                </div>
+                <div class="monster-card">
+                    <div class="card-img-placeholder"><span class="type-badge type-monster">怪物</span>👹</div>
+                    <div class="card-details"><h4>Ambush</h4><p>擅長偽裝並給予致命一擊</p></div>
+                </div>
+                <div class="monster-card">
+                    <div class="card-img-placeholder"><span class="type-badge type-monster">怪物</span>🏃</div>
+                    <div class="card-details"><h4>火柴人</h4><p>雖然瘦弱但是閃避率極高</p></div>
+                </div>
+                <div class="monster-card">
+                    <div class="card-img-placeholder"><span class="type-badge type-monster">怪物</span>💨</div>
+                    <div class="card-details"><h4>Rush</h4><p>速度極快，先發制人的好手</p></div>
+                </div>
+                <div class="monster-card">
+                    <div class="card-img-placeholder"><span class="type-badge type-monster">怪物</span>🍄</div>
+                    <div class="card-details"><h4>靈感菇</h4><p>吃了會突然有很多詭異點子</p></div>
+                </div>
+                <div class="monster-card">
+                    <div class="card-img-placeholder"><span class="type-badge type-monster">怪物</span>🪱</div>
+                    <div class="card-details"><h4>S 蚯蚓</h4><p>能夠潛伏在地底下的暗殺者</p></div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer" style="margin-top: 0;">
+        <div class="container">
+            <div class="footer-bottom" style="border: none; padding-top: 20px;">
+                <p>© 2026 偉泥夫妻團購小舖 - 怪物卡收集包特設網頁</p>
+                <div style="margin-top: 10px;">
+                    <a href="index.html" style="color: var(--forest-green);">返回商店首頁</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to top -->
+    <button class="back-to-top" id="backToTop" aria-label="回到頂端">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+            <path d="M12 19V5m-7 7 7-7 7 7" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+    </button>
+
+    <script src="script.js"></script>
+    <script>
+        // Custom simple animation for the deck cards
+        document.querySelectorAll('.monster-card').forEach((card, index) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            setTimeout(() => {
+                card.style.transition = 'all 0.5s ease';
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, 100 * index);
+        });
+    </script>
+</body>
+
+</html>
